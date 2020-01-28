@@ -501,3 +501,120 @@ addBeacon(24,21, image, 'R')
 # Wywietlanie
 plt.imshow(image, cmap = 'Greys')
 plt.show()
+
+
+#Projekty;[3, 5] 
+
+#3. Utwórz klasę Wektor3D. Wykorzystaj całą wiedzę jaką posiadasz na temat 
+#   wektorów w przestrzeni. Zdefiniuj wszystkie znane Ci operacje.
+#Utworzyć metody:
+#1. wyswietlanie wspolrzednych
+#2. zwiększ o inny wektor (suma)
+#3. zmniejsz o inny wektor (różnica)
+#4. wymnoz przez liczbę (iloczyn)
+#5. wymnoz przez drugi wektor skalarnie
+#6. wymnoz przez drugi wektor wektorowo
+#7. oblicz modul
+#8. wyznacz wektor przeciwnyny
+
+class Vector3D():
+    # konstruktor klasy Vector3D 
+    # otrzymuje 3 liczby rzeczywiste jako współrzędne kursora
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+    
+    # funkcja zwraca obliczoną wartoć modułu wektora
+    def magnitude(self):
+        return (self.x**2 + self.y**2 + self.z**2)**0.5
+    
+    # metoda zwraca współrzędne wektora w postaci xi, yj, zk
+    # metoda nie ma parametrów
+    # przeciąża operator __repr__
+    def __repr__(self):
+        out = str(self.x) + "i "
+        out += ", "
+        out += str(self.y) + "j "
+        out += ", "
+        out += str(self.z) + "k"
+        return "["+out+"]"
+    
+    # metoda zwraca sumę dwóch wektorów, nie zmienia wartoci własnego wektora
+    # otrzymuje 1 parametr wektor dodawany
+    # przeciąża operator __add__ dodawanie
+    def __add__(self, sec):
+        x = self.x + sec.x
+        y = self.y + sec.y
+        z = self.z + sec.z
+        return Vector3D(x, y, z)
+    
+    # metoda zwraca różnicę dwóch wektorów, nie zmienia wartoci własnego wektora
+    # otrzymuje 1 parametr wektor odejmowany
+    # przeciąża operator __sub__ odejmowanie
+    def __sub__(self, sec):
+        x = self.x - sec.x
+        y = self.y - sec.y
+        z = self.z - sec.z
+        return Vector3D(x, y, z)
+    
+    # metoda wyznacza wartoć wektora odwrotnego,
+    # nie zmienia wartoci własnego wektora
+    # otrzymuje 1 parametr wektor odejmowany
+    # przeciąża operator __invert__ odwrotnosć
+    def __invert__(self):
+        x = -self.x
+        y = -self.y
+        z = -self.z
+        return Vector3D(x, y, z)
+    
+    # metoda mnoży wektor przez podaną wartoć
+    # nie zmienia wartoci wektora własnego
+    # otrzymuje jeden poarametr wartoć do pomnożenia
+    # przeciąża operator __mul__ mnożenie
+    def __mul__(self, wart):
+        x = self.x * wart
+        y = self.y * wart
+        z = self.z * wart
+        return Vector3D(x, y, z)
+    
+    # metoda zwraca wartoć iloczynu skalarnego dwóch wektorów,
+    # nie zmienia wartoci wektora własnego
+    # otrzymuje jeden parametr drugi czynnik iloczynu
+    # przciąża operator __xor__ alternatywy wykluczającej
+    def __xor__(self, sec):
+        return self.x*sec.x + self.y*sec.y + self.z*sec.z
+    
+    # metoda zwraca wartoć iloczynu wektorowego dwóch wektorów,
+    # nie zmienia wartoci wektora własnego
+    # otrzymuje jeden parametr drugi czynnik iloczynu
+    # przeciąża operator __matmull__ mnożenie macierzy
+    def __matmul__(self, sec):
+        x = self.y * sec.z - self.z * sec.y
+        y = self.z * sec.x - self.x * sec.z
+        z = self.x * sec.y - self.y * sec.x
+        return Vector3D(x, y, z)
+        
+if __name__ == "__main__":         
+    
+    # wartosć liczby do przemnożenia wektora
+    x = 2
+    # utworzenie pustych obiektów 
+    vec1 = None
+    vec2 = None
+    vec3 = None
+    # Zainicjowanie obiektów klasy Vecto3D
+    vec1 = Vector3D(1,3,2)
+    vec2 = Vector3D(2,4,1)
+    # Przykładowe użycie zdefiniowanych operacji na wektorach
+    print("Długosć wektora v      |v|=" +str(vec1.magnitude()))
+    print("Reprezentacja wektora    v=" + str(vec1))
+    print("Wektor odwrotny do v    ~v=" + str(~vec1))
+    print("Długosć wektora u      |u|=" +str(vec1.magnitude()))
+    print("Reprezentacja wektora    u=" + str(vec2))
+    print("Wektor odwrotny do u    ~u=" + str(~vec2))
+    print("Dodawanie wektorów   v + u=" + str(vec1 + vec2))
+    print("Odejmowanie wktorów  v - u=" + str(vec1 - vec2))
+    print("Wektor razy liczba   " + str(x) + " * v=" + str(vec1 * x))
+    print("Iloczyn skalarny     v ^ u=" + str(vec1 @ vec2))
+    print("Iloczyn wektorowy    v @ u=" + str(vec1 ^ vec2))
